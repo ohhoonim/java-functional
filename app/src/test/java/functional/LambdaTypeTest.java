@@ -1,5 +1,11 @@
 package functional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 import org.junit.jupiter.api.Test;
 
 public class LambdaTypeTest {
@@ -16,20 +22,50 @@ public class LambdaTypeTest {
     @Test
     public void consumerTest() {
         // accept
+        Consumer<String> consumer = (name) -> System.out.println(name);
+        consumer.accept("matthew"); // console -> "matthew"
+
+        Consumer<String> consumer2 = new Consumer<String>() {
+            @Override
+            public void accept(String name) {
+                System.out.println(name);
+            }
+        };
+        consumer2.accept("alison");
     }
 
     @Test
     public void supplierTest() {
         // get
+        Supplier<String> supplier = () -> "matthew";
+        assertEquals("matthew", supplier.get());
     }
 
     @Test
     public void functionTest() {
         // apply
+        Function<Integer, String> function = (num) -> "--" + num + "--";
+        assertEquals("--10--", function.apply(10));
+    }
+
+    private String stringDecorator(Function<Integer, String> deco, int num) {
+        return deco.apply(num);
+    }
+
+    @Test
+    public void functionParamTest() {
+        Function<Integer, String> decoAstar = (num) -> "**" + num + "**";
+        String result = stringDecorator(decoAstar, 23);
+        assertEquals("**23**", result);
+
+        String result2 = stringDecorator((num) -> "--" + num + "--", 23);
+        assertEquals("--23--", result2);
     }
 
     @Test
     public void predicateTest() {
         // test
+        Predicate<String> predicate = (string) -> string.equals("matthew") ? true : false;
+        assertTrue(predicate.test("matthew"));
     }
 }
