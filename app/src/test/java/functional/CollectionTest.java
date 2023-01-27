@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BinaryOperator;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,6 +48,7 @@ public class CollectionTest {
         List<String> upperNames = source.stream().map(name -> name.toUpperCase())
                 .collect(ArrayList::new, ArrayList::add, ArrayList::addAll);
         // collect에 대한 내용은 Collectors를 참고하세요
+        // 메서드 레퍼런스 "::" 기호 두 개를 사용한다. 파라미터가 0개 또는 1개인 메서드를 호출할 때 사용할 수 있다. 
         assertEquals(expected, upperNames);
     }
     // stream은 컬렉션에서 람다식을 사용하는 기술이다. 따라서 stream을 사용하면 
