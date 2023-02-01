@@ -22,4 +22,5 @@ public class Camera {
             .reduce((filter, next) -> filter.compose(next))
             .orElse(color -> color);
     }
+
 }
