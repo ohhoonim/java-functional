@@ -9,9 +9,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import functional.entity.Employee;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class OptionalTest {
-    // static final Logger logger = LoggerFactory.getLogger(OptionalTest.class);
 
     private static Stream<Arguments> nameFactory() {
         return Stream.of(
@@ -63,9 +64,8 @@ public class OptionalTest {
     public void 부서별로조회해서_목록의_첫번째직원정보를_가져오자(List<Employee> emps, String expected, String dept) {
        String empName =  emps.stream()
                     .filter(emp -> emp.getDepartment().equals(dept))
-                    .peek(System.out::println)
+                    .peek((emp) -> log.debug("{}", emp))
                     .findFirst().map(emp -> emp.getName()).orElse("__blank__");
-        System.out.println(dept + " : " +empName);
         assertEquals(expected, empName);
     }
 
