@@ -15,4 +15,10 @@ public class Employee {
     public int ageGap(Employee other) {
         return this.age - other.getAge();
     }
+
+    @Override
+    public String toString() {
+        return "Employee [name=" + name + ", department=" + department + ", age=" + age + "]";
+    }
+
 }

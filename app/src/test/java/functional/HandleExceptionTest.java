@@ -32,10 +32,15 @@ public class HandleExceptionTest {
     // 외부 리소드에 대한 메모리 해제의 책임은 프로그래머이다
     @Test
     public void 외부_리소스에대한_가비지컬렉션은_프로그래머의_책임이다() throws IOException {
-        BookWriter writer = new BookWriter("bin/myBook.txt");
-        writer.writeChapter("chapter-1");
-        writer.finalize();
-        // close()를 해줘야 "chapter-1" 라는 글자가 들어간다
+        // try (BookWriter writer = new BookWriter("bin/myBook.txt")) {
+        //     writer.writeChapter("chapter-1");
+        //     writer.finalize();
+        //     // close()를 해줘야 "chapter-1" 라는 글자가 들어간다
+        // } catch (IOException e) {
+        //     throw e;
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
     }
 
     //ARM: Automatic Resource Management 
