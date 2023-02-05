@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +17,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import functional.entity.PurchaseItem;
 import functional.filter.Camera;
 import functional.filter.DiscountFilter;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @DisplayName("데코레이터패턴구현 or 람다식체인")
 public class DecoratorTest {
 
@@ -34,7 +36,22 @@ public class DecoratorTest {
                 ;
         assertEquals("one:two:matthew", filters.apply("matthew"));
     }
+    @Test 
+    public void compose를_이용하여_데코레이팅하기() {
+       String product = "americano"; 
 
+       Function<String, String> decoStar = prod -> "**" + prod + "**";
+       Function<String, String> decoDash = prod -> "--" + prod + "--";
+       Function<String, String> decoUnderscore = prod -> "__" + prod + "__";
+
+       Function<String, String> decorators = Stream.of(decoStar, decoDash, decoUnderscore)
+            .reduce((acc, next) -> acc.compose(next)).orElse(string -> string);
+
+       String result = Optional.of(product).map(decorators).get();
+
+       assertEquals("**--__americano__--**", result);
+       log.debug("{}", result);
+    }
     @ParameterizedTest(name="filterd: {0}")
     @MethodSource("filterDataFactory")
     public void 카메라에_여러개의_필터적용하기(Color expectedColor, List<Function<Color, Color>> filters) {
