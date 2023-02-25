@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class BookWriterEAM implements AutoCloseable {
+public final class BookWriterEAM implements AutoCloseable {
     private FileWriter writer;
 
     private BookWriterEAM(String fileName) throws IOException {
